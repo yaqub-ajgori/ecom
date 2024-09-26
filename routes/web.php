@@ -1,31 +1,31 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Vendor\VendorController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+// Admin routes
+Route::middleware(['auth', 'admin', 'verified'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
-Route::middleware(['auth', 'vendor'])->group(function () {
-    Route::get('/vendor/dashboard', [VendorController::class, 'index'])->name('vendor.dashboard');
+// Vendor routes
+Route::middleware(['auth', 'vendor', 'verified'])->prefix('vendor')->group(function () {
+    Route::get('/dashboard', [VendorController::class, 'index'])->name('vendor.dashboard');
 });
 
-Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+// User routes
+Route::middleware(['auth', 'user', 'verified'])->prefix('user')->group(function () {
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 });
 
+// Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
