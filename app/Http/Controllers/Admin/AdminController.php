@@ -1,17 +1,43 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         return view('admin.dashboard');
+    }
+
+    public function cartHistory(): View
+    {
+        return view('admin.cart.history');
+    }
+
+    public function orderHistory(): View
+    {
+        return view('admin.orders.history');
+    }
+
+    public function settings(): View
+    {
+        return view('admin.settings.index');
+    }
+
+    public function manageUsers(): View
+    {
+        return view('admin.users.index');
+    }
+
+    public function manageStores(): View
+    {
+        return view('admin.stores.index');
     }
 
     /**
